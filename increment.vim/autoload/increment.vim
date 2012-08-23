@@ -1,63 +1,26 @@
+function! increment#next_pattern( count )
 
-function! increment#next_pattern()
-    let s:pattern_list = []
-    try
-        let s:pattern_list = g:increment_vim[&filetype]
-        let s:cursor_str1 = expand("<cword>")
-        let s:cursor_str2 = expand("<cWORD>")
-        let vital = vital#of('increment.vim')
-        let vital_DataList = vital.import('Data.List')
-        if vital_DataList.has(s:pattern_list, s:cursor_str1)
-            let l:pattern_index = index(s:pattern_list, s:cursor_str1)
-            let l:pattern_index += 1
-            if l:pattern_index >= len(s:pattern_list)
-                let l:pattern_index = 0
-            endif
-            execute "normal! ciw" . s:pattern_list[l:pattern_index]
-        elseif  vital_DataList.has(s:pattern_list, s:cursor_str2)
-            let l:pattern_index = index(s:pattern_list, s:cursor_str2)
-            let l:pattern_index += 1
-            if l:pattern_index >= len(s:pattern_list)
-                let l:pattern_index = 0
-            endif
-            execute "normal! ciw" . s:pattern_list[l:pattern_index]
-        else
-            execute "normal! \<c-a>"
-        endif
-    catch
-        execute "normal! \<c-a>"
-    endtry
+    if a:count == 0
+        call detail#func#next(1)
+    else
+        let l:i = 0
+        while a:count > l:i
+            call detail#func#next(a:count)
+            let l:i += 1
+        endwhile
+    endif
 
 endfunction
 
-function! increment#prev_pattern()
-    let s:pattern_list = []
-    try
-        let s:pattern_list = g:increment_vim[&filetype]
-        let s:cursor_str1 = expand("<cword>")
-        let s:cursor_str2 = expand("<cWORD>")
-        let vital = vital#of('increment.vim')
-        let vital_DataList = vital.import('Data.List')
-        if vital_DataList.has(s:pattern_list, s:cursor_str1)
-            let l:pattern_index = index(s:pattern_list, s:cursor_str1)
-            let l:pattern_index -= 1
-            if l:pattern_index < 0
-                let l:pattern_index = len(s:pattern_list) - 1
-            endif
-            execute "normal! ciw" . s:pattern_list[l:pattern_index]
-        elseif  vital_DataList.has(s:pattern_list, s:cursor_str2)
-            let l:pattern_index = index(s:pattern_list, s:cursor_str2)
-            let l:pattern_index -= 1
-            if l:pattern_index < 0
-                let l:pattern_index = len(s:pattern_list) - 1
-            endif
-            execute "normal! ciw" . s:pattern_list[l:pattern_index]
-        else
-            execute "normal! \<c-x>"
-        endif
-    catch
-        execute "normal! \<c-x>"
-    endtry
-
+function! increment#prev_pattern( count )
+    if a:count == 0
+        call detail#func#prev(1)
+    else
+        let l:i = 0
+        while a:count > l:i
+            call detail#func#prev(a:count)
+            let l:i += 1
+        endwhile
+    endif
 endfunction
 
